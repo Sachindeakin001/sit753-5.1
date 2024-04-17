@@ -1,0 +1,56 @@
+pipeline {
+    agent any
+    
+    environment {
+        DIRECTORY_PATH = 'https://github.com/Sachindeakin001/sit753-5.1'
+        TESTING_ENVIRONMENT = 'Testing'
+        PRODUCTION_ENVIRONMENT = 'Sachin'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                echo "Fetch the source code from ${env.DIRECTORY_PATH}"
+                echo "Compile the code and generating any necessary artifacts"
+            }
+        }
+        stage('Test') {
+            steps {
+                echo "Running unit tests"
+                echo "Running integration tests"
+            }
+        }
+        stage('check the quality of the code') {
+            steps {
+                echo "Checking the quality of the code"
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo "Deploying the application to a testing environment (${env.TESTING_ENVIRONMENT})"
+            }
+        }
+        stage('Approval') {
+            steps {
+                echo "Waiting for manual approval..."
+                sleep time: 10, unit: 'SECONDS'
+            }
+        }
+        stage('Deploy to Production') {
+            steps {
+                echo "Deploying the code to the production environment (${env.PRODUCTION_ENVIRONMENT})"
+            }
+        }
+        // Additional stages can be added here
+        stage(' Stage 1') {
+            steps {
+                echo "This is an additional stage"
+            }
+        }
+        stage(' Stage 2') {
+            steps {
+                echo "This is another additional stage"
+            }
+        }
+    }
+}

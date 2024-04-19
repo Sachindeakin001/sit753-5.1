@@ -1,55 +1,49 @@
 pipeline {
     agent any
     
-    environment {
-        DIRECTORY_PATH = 'https://github.com/Sachindeakin001/sit753-5.1'
-        TESTING_ENVIRONMENT = 'Testing'
-        PRODUCTION_ENVIRONMENT = 'Sachin'
-    }
-
     stages {
         stage('Build') {
             steps {
-                echo "Fetch the source code from ${env.DIRECTORY_PATH}"
-                echo "Compile the code and generating any necessary artifacts"
+                // Build the code using Maven
+                sh 'mvn clean package'
             }
         }
-        stage('Test') {
+        stage('Unit and Integration Tests') {
             steps {
-                echo "Running unit tests"
-                echo "Running integration tests"
+                // Run unit tests using JUnit
+                sh 'mvn test'
+                // Run integration tests using Selenium
+                // Example command: sh 'selenium-command-here'
             }
         }
-        stage('check the quality of the code') {
+        stage('Code Analysis') {
             steps {
-                echo "Checking the quality of the code"
+                // Integrate code analysis tool (e.g., SonarQube)
+                // Example command: sh 'sonar-scanner-command-here'
             }
         }
-        stage('Deploy') {
+        stage('Security Scan') {
             steps {
-                echo "Deploying the application to a testing environment (${env.TESTING_ENVIRONMENT})"
+                // Perform security scan using a tool (e.g., OWASP ZAP)
+                // Example command: sh 'owasp-zap-command-here'
             }
         }
-        stage('Approval') {
+        stage('Deploy to Staging') {
             steps {
-                echo "Waiting for manual approval..."
-                sleep time: 10, unit: 'SECONDS'
+                // Deploy the application to staging server (e.g., AWS CodeDeploy)
+                // Example command: sh 'aws-codedeploy-command-here'
+            }
+        }
+        stage('Integration Tests on Staging') {
+            steps {
+                // Run integration tests on staging environment
+                // Example command: sh 'integration-tests-command-here'
             }
         }
         stage('Deploy to Production') {
             steps {
-                echo "Deploying the code to the production environment (${env.PRODUCTION_ENVIRONMENT})"
-            }
-        }
-        // Additional stages can be added here
-        stage(' Stage 1') {
-            steps {
-                echo "This is an additional stage"
-            }
-        }
-        stage(' Stage 2') {
-            steps {
-                echo "This is another additional stage"
+                // Deploy the application to production server (e.g., AWS CodeDeploy)
+                // Example command: sh 'aws-codedeploy-command-here'
             }
         }
     }

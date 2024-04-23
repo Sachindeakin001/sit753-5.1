@@ -13,37 +13,38 @@ pipeline {
                 // Run unit tests using JUnit
                 sh 'mvn test'
                 // Run integration tests using Selenium
-                // Example command: sh 'selenium-command-here'
+                sh 'npm install selenium-webdriver'
+                sh 'node selenium-tests.js'
             }
         }
         stage('Code Analysis') {
             steps {
                 // Integrate code analysis tool (e.g., SonarQube)
-                // Example command: sh 'sonar-scanner-command-here'
+                sh 'sonar-scanner -Dsonar.projectKey=my-project'
             }
         }
         stage('Security Scan') {
             steps {
                 // Perform security scan using a tool (e.g., OWASP ZAP)
-                // Example command: sh 'owasp-zap-command-here'
+                sh 'zap-cli --zap-url http://localhost:8080 --spider http://myapp.com --scan'
             }
         }
         stage('Deploy to Staging') {
             steps {
                 // Deploy the application to staging server (e.g., AWS CodeDeploy)
-                // Example command: sh 'aws-codedeploy-command-here'
+                sh 'aws deploy --environment staging'
             }
         }
         stage('Integration Tests on Staging') {
             steps {
                 // Run integration tests on staging environment
-                // Example command: sh 'integration-tests-command-here'
+                sh 'run-integration-tests --environment staging'
             }
         }
         stage('Deploy to Production') {
             steps {
                 // Deploy the application to production server (e.g., AWS CodeDeploy)
-                // Example command: sh 'aws-codedeploy-command-here'
+                sh 'aws deploy --environment production'
             }
         }
     }
